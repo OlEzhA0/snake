@@ -115,7 +115,7 @@ function drawGame() {
   eatTail(snakeHead, snake);
 }
 
-let game = setInterval(drawGame, 100);
+let game = setInterval(drawGame, 150);
 
 document.addEventListener('keydown', wrapper);
 
