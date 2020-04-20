@@ -16,7 +16,7 @@ const wrapper = throttle(direction, 50);
 let even = 0;
 let score = 0;
 
-food.src = '../images/food.png';
+food.src = 'images/food.png';
 
 let foodCoords = {
   x: Math.floor((Math.random() * fieldWidth)) * fieldCell,
