@@ -12,7 +12,7 @@ const fieldWidth = 30;
 const fieldHeight = 20;
 const fieldCell = 32;
 const food = new Image();
-const wrapper = throttle(direction, 50);
+const wrapper = throttle(direction, 200);
 let even = 0;
 let score = 0;
 
@@ -74,6 +74,7 @@ function drawGame() {
       x: Math.floor((Math.random() * fieldWidth)) * fieldCell,
       y: Math.floor((Math.random() * fieldHeight)) * fieldCell,
     };
+    drawFood();
   } else {
     snake.pop();
   }
@@ -121,6 +122,20 @@ document.addEventListener('keydown', wrapper);
 
 let pastKey;
 
+function drawFood() {
+  for (const key of snake) {
+    if (key.x === foodCoords.x
+      && key.y === foodCoords.y) {
+      foodCoords = {
+        x: Math.floor((Math.random() * fieldWidth)) * fieldCell,
+        y: Math.floor((Math.random() * fieldHeight)) * fieldCell,
+      };
+    }
+  }
+
+  return;
+}
+
 function eatTail(head, body) {
   for (let i = 1; i < body.length; i++) {
     if (head.x === body[i].x && head.y === body[i].y) {
@@ -134,13 +149,26 @@ function eatTail(head, body) {
 }
 
 function direction(event) {
-  if (event.keyCode === 37 && pastKey !== 'right') {
+  console.log(even.keyCode)
+  if ((event.keyCode === 37
+    || event.keyCode === 65)
+    && pastKey !== 'right'
+    ) {
     pastKey = 'left';
-  } else if (event.keyCode === 38 && pastKey !== 'down') {
+  } else if ((event.keyCode === 38
+    || event.keyCode === 87)
+    && pastKey !== 'down'
+    ) {
     pastKey = 'up';
-  } else if (event.keyCode === 39 && pastKey !== 'left') {
+  } else if ((event.keyCode === 39
+    || event.keyCode === 68)
+    && pastKey !== 'left'
+    ) {
     pastKey = 'right';
-  } else if (event.keyCode === 40 && pastKey !== 'up') {
+  } else if ((event.keyCode === 40
+    || event.keyCode === 83)
+    && pastKey !== 'up'
+    ) {
     pastKey = 'down';
   }
 }
@@ -180,6 +208,10 @@ function throttle(f, delay) {
 
     setTimeout(() => {
       wait = false;
+
+      if (savedArgs) {
+        wrapper(...savedArgs)
+      }
     }, delay);
   };
 }
